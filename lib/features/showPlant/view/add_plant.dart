@@ -1,15 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:first_app/core/shared/util.dart';
-import 'package:first_app/features/showPlant/controller/showplantcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
+import '../../../core/shared/util.dart';
+
 // ignore: must_be_immutable
-class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
-  @override
-  ShowPlantController controller = Get.put(ShowPlantController());
+class AddPlantPageView extends StatelessWidget {
   Uint8List? image;
 
   AddPlantPageView({super.key});
@@ -26,7 +24,7 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => Get.back(),
                           child: const Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
@@ -53,7 +51,7 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
                       child: Column(
                     children: [
                       const SizedBox(width: 170),
-                      Material(child: Imageprofile(controller)),
+                      Material(child: Imageprofile()),
                     ],
                   )),
                   Padding(
@@ -182,6 +180,38 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
                           ),
                         ),
                       )),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 450,
+                        child: Material(
+                          child: TextFormField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            decoration: InputDecoration(
+                                labelText: " الري",
+                                labelStyle: const TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromARGB(255, 194, 192, 192)),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      width: 1,
+                                      color:
+                                          Color.fromARGB(255, 194, 192, 192)),
+                                  borderRadius: BorderRadius.circular(15),
+                                )),
+                            onChanged: (value) {},
+                          ),
+                        ),
+                      )),
                   Material(
                     child: Padding(
                       padding: const EdgeInsets.all(6),
@@ -194,6 +224,37 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
                             borderRadius: BorderRadius.circular(10)),
                         child: const GFAccordion(
                           title: "  الافات الزراعية",
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 59, 92, 30),
+                              decoration: TextDecoration.none),
+                          contentChild: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Row(
+                                      //  children: controller.AllCare.map,
+                                      ),
+                                ),
+                              ]),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Material(
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Container(
+                        width: MediaQuery.sizeOf(context).width,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color:
+                                    const Color.fromARGB(255, 194, 192, 192)),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const GFAccordion(
+                          title: "نوع المحصول",
                           textStyle: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -330,7 +391,7 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
             )));
   }
 
-  Widget Imageprofile(ShowPlantController controller) {
+  Widget Imageprofile() {
     return Center(
       child: Stack(
         children: <Widget>[
@@ -343,9 +404,8 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
                       border: Border.all(
                           width: 1,
                           color: const Color.fromARGB(255, 59, 92, 30))),
-                  child: controller.stringPickImage.value.isNotEmpty
-                      ? Utility.imageFromBase64String(
-                          controller.stringPickImage.value, 200, 200)
+                  child: false
+                      ? Utility.imageFromBase64String('', 200, 200)
                       : image == null
                           ? Image.asset(
                               'assets/images/1a.png',
@@ -362,7 +422,7 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
               right: 20.0,
               child: InkWell(
                 onTap: () async {
-                  openBottomSheet(controller);
+                  openBottomSheet();
                 },
                 child: const Icon(
                   Icons.camera_alt,
@@ -376,7 +436,7 @@ class AddPlantPageView extends GetResponsiveView<ShowPlantController> {
   }
 }
 
-void openBottomSheet(ShowPlantController controller) {
+void openBottomSheet() {
   Get.bottomSheet(
     Container(
       height: 120.0,
@@ -403,9 +463,7 @@ void openBottomSheet(ShowPlantController controller) {
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     foregroundColor: Colors.white,
                     mini: true,
-                    onPressed: () {
-                      controller.pickImageFun();
-                    },
+                    onPressed: () {},
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.image),
@@ -421,7 +479,7 @@ void openBottomSheet(ShowPlantController controller) {
           ),
           // OutlinedButton(
           //   onPressed: () {
-          //     Navigator.pop(context);
+          //     Get.back();
           //   },
           //   child: const Text('Close'),
           // ),

@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../controller/showplantcontroller.dart';
-
 // ignore: must_be_immutable
-class DetailsPageView extends GetResponsiveView<ShowPlantController> {
-  @override
-  ShowPlantController controller = Get.put(ShowPlantController());
-
-  DetailsPageView({super.key});
+class DetailsPageView extends StatelessWidget {
+  const DetailsPageView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +24,7 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
                 child: Image.asset(
-              controller.TheKind.url.toString(),
+              '',
               fit: BoxFit.cover,
               height: MediaQuery.sizeOf(context).height / 1.6,
               // height: 300,
@@ -49,17 +44,13 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            cardDescript(controller.TheKind.name.toString(),
-                                controller.TheKind.description.toString()),
-                            cardDescript("موعد الزراعة ",
-                                controller.TheKind.agricultureTime.toString()),
-                            cardDescript("القيمة الغذائية ",
-                                controller.TheKind.valueplant.toString()),
-                            cardDescript("فترة الحصاد",
-                                controller.TheKind.getkinds.toString()),
+                            cardDescript('', ''),
+                            cardDescript("موعد الزراعة ", ''),
+                            cardDescript("القيمة الغذائية ", ''),
+                            cardDescript("فترة الحصاد", ''),
                             InkWell(
                               onTap: () {
-                                Get.to(IllsionPageView());
+                                Get.to(const IllsionPageView());
                               },
                               child: Material(
                                 child: Padding(
@@ -82,7 +73,7 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                                           decoration: TextDecoration.none),
                                       contentChild: TextButton(
                                         onPressed: () {
-                                          Get.to(IllsionPageView());
+                                          Get.to(const IllsionPageView());
                                         },
                                         child: const Center(
                                           child: Text(
@@ -107,9 +98,9 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                                           color: const Color.fromARGB(
                                               255, 194, 192, 192)),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: GFAccordion(
+                                  child: const GFAccordion(
                                     title: "طرق العناية",
-                                    textStyle: const TextStyle(
+                                    textStyle: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
                                         color: Color.fromARGB(255, 59, 92, 30),
@@ -119,16 +110,16 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                                             MainAxisAlignment.start,
                                         children: [
                                           Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: EdgeInsets.all(8.0),
                                             child: Row(
                                               children: [
                                                 Expanded(
                                                     child: Text(
-                                                  controller.des.toString(),
+                                                  '',
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   maxLines: 6,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                       color: Colors.black87,
                                                       fontSize: 18,
                                                       fontWeight:
@@ -152,11 +143,11 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                                           color: const Color.fromARGB(
                                               255, 194, 192, 192)),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: Align(
+                                  child: const Align(
                                     alignment: Alignment.centerRight,
                                     child: GFAccordion(
                                       title: "طرق التخزين",
-                                      textStyle: const TextStyle(
+                                      textStyle: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
                                           color:
@@ -167,17 +158,16 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
                                               MainAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: EdgeInsets.all(8.0),
                                               child: Row(
                                                 children: [
                                                   Expanded(
                                                       child: Text(
-                                                    controller.des.toString(),
+                                                    '',
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     maxLines: 6,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 18,
                                                         fontWeight:
@@ -263,7 +253,7 @@ class DetailsPageView extends GetResponsiveView<ShowPlantController> {
           child: Align(
             alignment: Alignment.topRight,
             child: Text(
-              // controller.TheKind.name.toString(),,
+              // '',,
               n,
               style: const TextStyle(
                   fontSize: 20,

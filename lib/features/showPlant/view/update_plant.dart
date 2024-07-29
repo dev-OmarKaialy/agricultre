@@ -1,15 +1,12 @@
 import 'dart:typed_data';
 
 import 'package:first_app/core/shared/util.dart';
-import 'package:first_app/features/showPlant/controller/showplantcontroller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
 // ignore: must_be_immutable
-class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
-  @override
-  ShowPlantController controller = Get.put(ShowPlantController());
+class UpdatePlantPageView extends StatelessWidget {
   Uint8List? image;
 
   UpdatePlantPageView({super.key});
@@ -53,7 +50,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                       child: Column(
                     children: [
                       const SizedBox(width: 170),
-                      Material(child: Imageprofile(controller)),
+                      Material(child: Imageprofile()),
                     ],
                   )),
                   Padding(
@@ -62,7 +59,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                         width: 450,
                         child: Material(
                           child: TextFormField(
-                            initialValue: controller.updatePlant.name,
+                            initialValue: '',
                             decoration: InputDecoration(
                                 labelText: " تعديل اسم النبتة",
                                 labelStyle: const TextStyle(
@@ -93,7 +90,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                         width: 450,
                         child: Material(
                           child: TextFormField(
-                            initialValue: controller.updatePlant.description,
+                            initialValue: '',
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration(
@@ -126,7 +123,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                         width: 450,
                         child: Material(
                           child: TextFormField(
-                            initialValue: controller.updatePlant.valueplant,
+                            initialValue: '',
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration(
@@ -159,7 +156,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                         width: 450,
                         child: Material(
                           child: TextFormField(
-                            initialValue: controller.updatePlant.getkinds,
+                            initialValue: '',
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration(
@@ -332,7 +329,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
             )));
   }
 
-  Widget Imageprofile(ShowPlantController controller) {
+  Widget Imageprofile() {
     return Center(
       child: Stack(
         children: <Widget>[
@@ -345,12 +342,11 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
                       border: Border.all(
                           width: 1,
                           color: const Color.fromARGB(255, 59, 92, 30))),
-                  child: controller.stringPickImage.value.isNotEmpty
-                      ? Utility.imageFromBase64String(
-                          controller.stringPickImage.value, 200, 200)
+                  child: false
+                      ? Utility.imageFromBase64String('', 200, 200)
                       : image == null
                           ? Image.asset(
-                              controller.updatePlant.url!,
+                              '',
                               width: 200,
                               height: 200,
                               fit: BoxFit.fill,
@@ -364,7 +360,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
               right: 20.0,
               child: InkWell(
                 onTap: () async {
-                  openBottomSheet(controller);
+                  openBottomSheet();
                 },
                 child: const Icon(
                   Icons.camera_alt,
@@ -378,7 +374,7 @@ class UpdatePlantPageView extends GetResponsiveView<ShowPlantController> {
   }
 }
 
-void openBottomSheet(ShowPlantController controller) {
+void openBottomSheet() {
   Get.bottomSheet(
     Container(
       height: 120.0,
@@ -405,9 +401,7 @@ void openBottomSheet(ShowPlantController controller) {
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     foregroundColor: Colors.white,
                     mini: true,
-                    onPressed: () {
-                      controller.pickImageFun();
-                    },
+                    onPressed: () {},
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.image),

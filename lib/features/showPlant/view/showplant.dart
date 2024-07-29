@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/showplantcontroller.dart';
 import 'showDetails.dart';
 
 // ignore: must_be_immutable
-class ShowPlantPageView extends GetResponsiveView<ShowPlantController> {
-  ShowPlantController controller = Get.put(ShowPlantController());
+class ShowPlantPageView extends StatelessWidget {
+  const ShowPlantPageView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +30,12 @@ class ShowPlantPageView extends GetResponsiveView<ShowPlantController> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 100,
                         ),
-                        Center(
+                        const Center(
                           child: Text(
-                            "بحث عن  " + controller.nameWidget,
+                            "بحث عن  " '',
                             style: TextStyle(
                                 color: Color.fromARGB(255, 59, 92, 30),
                                 fontWeight: FontWeight.bold,
@@ -68,12 +68,12 @@ class ShowPlantPageView extends GetResponsiveView<ShowPlantController> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   width: 1,
                                   color: Color.fromARGB(255, 59, 92, 30),
                                 ),
                                 borderRadius: BorderRadius.circular(13)),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.search,
                               color: Color.fromARGB(255, 107, 165, 56),
                             ),
@@ -87,58 +87,56 @@ class ShowPlantPageView extends GetResponsiveView<ShowPlantController> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Wrap(
-                    children: controller.FlowersList.map((e) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              controller.TheKind.name = e.name;
-                              controller.TheKind.url = e.url;
-                              controller.TheKind.valueplant = e.valueplant;
-                              controller.TheKind.agricultureTime =
-                                  e.agricultureTime;
-                              controller.TheKind.getkinds = e.getkinds;
-                              controller.TheKind.description = e.description;
-                              Get.to(DetailsPageView());
-                            },
-                            child: Container(
-                              width: 230,
-                              decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 250, 249, 249),
-                                border: Border.all(
-                                    width: 1.2,
-                                    //  color: Color.fromARGB(255, 107, 165, 56),
-                                    color: Color.fromARGB(255, 213, 243, 215)),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: 200,
-                                    child: Image.asset(
-                                      e.url!,
-                                      fit: BoxFit.cover,
+                    children: []
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  Get.to(const DetailsPageView());
+                                },
+                                child: Container(
+                                  width: 230,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(
+                                        255, 250, 249, 249),
+                                    border: Border.all(
+                                        width: 1.2,
+                                        //  color: Color.fromARGB(255, 107, 165, 56),
+                                        color: const Color.fromARGB(
+                                            255, 213, 243, 215)),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 200,
+                                        child: Image.asset(
+                                          e.url!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        e.name!,
+                                        style: const TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 59, 92, 30),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                    )
+                                  ]),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    e.name!,
-                                    style: TextStyle(
-                                        color: Color.fromARGB(255, 59, 92, 30),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                )
-                              ]),
-                            ),
-                          ),
-                        )).toList(),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ],
               ),

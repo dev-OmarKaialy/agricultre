@@ -3,14 +3,9 @@ import 'package:first_app/features/showPlant/view/update_plant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller/showplantcontroller.dart';
-
 // ignore: must_be_immutable
-class SettingPlantPageView extends GetResponsiveView<ShowPlantController> {
-  @override
-  ShowPlantController controller = Get.put(ShowPlantController());
-
-  SettingPlantPageView({super.key});
+class SettingPlantPageView extends StatelessWidget {
+  const SettingPlantPageView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,108 +93,117 @@ class SettingPlantPageView extends GetResponsiveView<ShowPlantController> {
                     height: 10,
                   ),
                   Wrap(
-                    children: controller.FlowersList.map((e) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () {
-                              // controller.element = e;
-                              // Get.to(ShowDetailIllussionPageView());
-                            },
-                            child: Container(
-                              width: 230,
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 250, 249, 249),
-                                border: Border.all(
-                                    width: 1.2,
-                                    //  color: Color.fromARGB(255, 107, 165, 56),
-                                    color: const Color.fromARGB(
-                                        255, 213, 243, 215)),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(children: [
-                                Container(
-                                  width: 200,
-                                  height: 180,
+                    children: []
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: InkWell(
+                                onTap: () {
+                                  // controller.element = e;
+                                  // Get.to(ShowDetailIllussionPageView());
+                                },
+                                child: Container(
+                                  width: 230,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(
-                                          width: 2,
-                                          color: const Color.fromARGB(
-                                              255, 199, 198, 198)),
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage(
-                                            e.url!,
-                                          ),
-                                          colorFilter: ColorFilter.mode(
-                                              Colors.grey.withOpacity(0.8),
-                                              BlendMode.modulate))),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(8, 40, 8, 8),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          e.name!,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              // Color.fromARGB(255, 59, 92, 30),
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20),
-                                        ),
-                                        Row(
+                                    color: const Color.fromARGB(
+                                        255, 250, 249, 249),
+                                    border: Border.all(
+                                        width: 1.2,
+                                        //  color: Color.fromARGB(255, 107, 165, 56),
+                                        color: const Color.fromARGB(
+                                            255, 213, 243, 215)),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Column(children: [
+                                    Container(
+                                      width: 200,
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                              width: 2,
+                                              color: const Color.fromARGB(
+                                                  255, 199, 198, 198)),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                e.url!,
+                                              ),
+                                              colorFilter: ColorFilter.mode(
+                                                  Colors.grey.withOpacity(0.8),
+                                                  BlendMode.modulate))),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 40, 8, 8),
+                                        child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  controller.updatePlant = e;
-                                                  print(e.agricultureTime);
-                                                  Get.to(UpdatePlantPageView());
-                                                },
-                                                icon: const Icon(Icons.edit,
-                                                    shadows: [
-                                                      Shadow(
-                                                          color: Colors.black87)
-                                                    ],
-                                                    size: 30,
-                                                    color: Colors.green)),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                    alignment: Alignment.center,
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        width: 400,
-                                                        height: 150,
-                                                        child: delete()),
-                                                  ));
-                                                },
-                                                icon: const Icon(Icons.delete,
-                                                    shadows: [
-                                                      Shadow(
-                                                          color: Colors.black)
-                                                    ],
-                                                    size: 30,
-                                                    color: Colors.black)),
+                                            Text(
+                                              e.name!,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  color: Colors.white,
+                                                  // Color.fromARGB(255, 59, 92, 30),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                    onPressed: () {
+                                                      print(e.agricultureTime);
+                                                      Get.to(
+                                                          UpdatePlantPageView());
+                                                    },
+                                                    icon: const Icon(Icons.edit,
+                                                        shadows: [
+                                                          Shadow(
+                                                              color: Colors
+                                                                  .black87)
+                                                        ],
+                                                        size: 30,
+                                                        color: Colors.green)),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      Get.dialog(Align(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20)),
+                                                            width: 400,
+                                                            height: 150,
+                                                            child: delete()),
+                                                      ));
+                                                    },
+                                                    icon: const Icon(
+                                                        Icons.delete,
+                                                        shadows: [
+                                                          Shadow(
+                                                              color:
+                                                                  Colors.black)
+                                                        ],
+                                                        size: 30,
+                                                        color: Colors.black)),
+                                              ],
+                                            )
                                           ],
-                                        )
-                                      ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ]),
                                 ),
-                              ]),
-                            ),
-                          ),
-                        )).toList(),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ],
               ),

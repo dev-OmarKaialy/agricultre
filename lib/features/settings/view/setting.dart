@@ -1,10 +1,12 @@
-import 'package:first_app/features/showPlant/view/add_plant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../agriculture/view/setting.dart';
+import '../../care/view/add_care.dart';
 import '../../illusion/view/setting.dart';
+import '../../showPlant/view/add_plant.dart';
 import '../../showPlant/view/setting_plant.dart';
+import '../../storage/view/add_storage.dart';
 import '../controller/setting_controller.dart';
 
 // ignore: must_be_immutable
@@ -23,7 +25,7 @@ class SettingPageView extends GetResponsiveView<SettingsController> {
           child: Row(
             children: [
               InkWell(
-                onTap: () => Navigator.pop(context),
+                onTap: () => Get.back(),
                 child: const Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -49,29 +51,59 @@ class SettingPageView extends GetResponsiveView<SettingsController> {
             ],
           ),
         ),
-        Column(
-          children: [
-            InkWell(
-                onTap: () {
-                  Get.to(AddPlantPageView());
-                },
-                child: CardSetting("اضافة نبتة جديدة", Icons.add)),
-            InkWell(
-                onTap: () {
-                  Get.to(SettingPlantPageView());
-                },
-                child: CardSetting("معلومات نبتة", Icons.edit)),
-            InkWell(
-                onTap: () {
-                  Get.to(SettinfIllusionPageView());
-                },
-                child: CardSetting("افة زراعية", Icons.edit)),
-            InkWell(
-                onTap: () {
-                  Get.to(SettingAgriculturePageView());
-                },
-                child: CardSetting("الية زراعة", Icons.edit)),
-          ],
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return AddPlantPageView();
+                    }));
+                  },
+                  child: CardSetting("اضافة نبتة جديدة", Icons.add)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return SettingPlantPageView();
+                    }));
+                  },
+                  child: CardSetting("معلومات نبتة", Icons.edit)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SettinfIllusionPageView();
+                    }));
+                  },
+                  child: CardSetting("افة زراعية", Icons.edit)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SettingAgriculturePageView();
+                    }));
+                  },
+                  child: CardSetting("الية زراعة", Icons.edit)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SettingStorage();
+                    }));
+                  },
+                  child: CardSetting(" طرق التخزين ", Icons.edit)),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SettingCare();
+                    }));
+                  },
+                  child: CardSetting("  طرق العناية", Icons.edit)),
+            ],
+          ),
         ),
         SizedBox(
             width: 100, height: 150, child: Image.asset("assets/images/1a.png"))

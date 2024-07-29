@@ -5,7 +5,7 @@ class ApiVariables {
   ///General///
   /////////////
   final _scheme = 'http';
-  final _host = "10.0.2.2";
+  final _host = "localhost";
 
   Uri _mainUri({
     required String path,
