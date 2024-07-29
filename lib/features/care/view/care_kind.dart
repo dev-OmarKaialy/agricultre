@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class CareShowPageView extends StatelessWidget {
@@ -93,62 +92,73 @@ class CareShowPageView extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 onTap: () {
-                                  Get.dialog(Align(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                      width: 400,
-                                      height: 400,
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              color: const Color.fromARGB(
-                                                  255, 206, 203, 203),
-                                              width: 1)),
-                                      child: const SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  8, 20, 8, 20),
-                                              child: Text(
-                                                '',
-                                                style: TextStyle(
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    color: Color.fromARGB(
-                                                        255, 59, 92, 30),
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Row(
+                                  showAdaptiveDialog(
+                                      context: context,
+                                      builder: (c) {
+                                        return (Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            width: 400,
+                                            height: 400,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                border: Border.all(
+                                                    color: const Color.fromARGB(
+                                                        255, 206, 203, 203),
+                                                    width: 1)),
+                                            child: const SingleChildScrollView(
+                                              child: Column(
                                                 children: [
-                                                  Expanded(
-                                                      child: Text(
-                                                    '',
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 6,
-                                                    style: TextStyle(
-                                                        color: Colors.black87,
-                                                        decoration:
-                                                            TextDecoration.none,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            8, 20, 8, 20),
+                                                    child: Text(
+                                                      '',
+                                                      style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .none,
+                                                          color: Color.fromARGB(
+                                                              255, 59, 92, 30),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 20),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                            child: Text(
+                                                          '',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 6,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ));
+                                          ),
+                                        ));
+                                      });
                                 },
                                 child: Container(
                                     width: double.infinity,

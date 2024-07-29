@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../agriculture/view/setting.dart';
 import '../../care/view/add_care.dart';
@@ -7,14 +6,16 @@ import '../../illusion/view/setting.dart';
 import '../../showPlant/view/add_plant.dart';
 import '../../showPlant/view/setting_plant.dart';
 import '../../storage/view/add_storage.dart';
-import '../controller/setting_controller.dart';
 
 // ignore: must_be_immutable
-class SettingPageView extends GetResponsiveView<SettingsController> {
-  @override
-  SettingsController controller = Get.put(SettingsController());
+class SettingPageView extends StatefulWidget {
+  const SettingPageView({super.key});
 
-  SettingPageView({super.key});
+  @override
+  State<SettingPageView> createState() => _SettingPageViewState();
+}
+
+class _SettingPageViewState extends State<SettingPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +26,7 @@ class SettingPageView extends GetResponsiveView<SettingsController> {
           child: Row(
             children: [
               InkWell(
-                onTap: () => Get.back(),
+                onTap: () => Navigator.pop(context),
                 child: const Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -66,7 +67,7 @@ class SettingPageView extends GetResponsiveView<SettingsController> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return SettingPlantPageView();
+                      return const SettingPlantPageView();
                     }));
                   },
                   child: CardSetting("معلومات نبتة", Icons.edit)),

@@ -1,8 +1,27 @@
+import 'package:first_app/core/extensions/context_extensions.dart';
+import 'package:first_app/features/agriculture/bloc/agri_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/shared/request_status.dart';
+import '../../../core/shared/service_locator.dart';
+import '../../../core/widgets/main_error_widget.dart';
 
 // ignore: must_be_immutable
-class AgriculturePageView extends StatelessWidget {
+class AgriculturePageView extends StatefulWidget {
   const AgriculturePageView({super.key});
+
+  @override
+  State<AgriculturePageView> createState() => _AgriculturePageViewState();
+}
+
+class _AgriculturePageViewState extends State<AgriculturePageView> {
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<AgriBloc>().add(IndexAgriEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +71,10 @@ class AgriculturePageView extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: TextField(
+                        onChanged: (v) {
+                          serviceLocator<AgriBloc>()
+                              .add(SearchAgriEvent(phrase: v));
+                        },
                         decoration: InputDecoration(
                             labelText: 'بحث',
                             labelStyle: const TextStyle(
@@ -86,8 +109,57 @@ class AgriculturePageView extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Column(
-                    children: [],
+                  SizedBox(
+                    height: context.height() * .8,
+                    child: BlocBuilder<AgriBloc, AgriState>(
+                        bloc: serviceLocator<AgriBloc>(),
+                        builder: (context, state) {
+                          return state.indexStatus == RequestStatus.loading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : state.indexStatus == RequestStatus.success
+                                  ? state.agris.isEmpty
+                                      ? const Center(
+                                          child: Text('No Agris Yet'),
+                                        )
+                                      : ListView.builder(
+                                          itemCount: state.agris.length,
+                                          itemBuilder: (context, index) =>
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ExpansionTile(
+                                                  childrenPadding:
+                                                      const EdgeInsets.all(10),
+                                                  collapsedShape:
+                                                      RoundedRectangleBorder(
+                                                          side:
+                                                              const BorderSide(),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15)),
+                                                  shape: RoundedRectangleBorder(
+                                                      side: const BorderSide(),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  title: Text(
+                                                      state.agris[index].name!),
+                                                  children: [
+                                                    Text(state.agris[index]
+                                                        .discrption!)
+                                                  ],
+                                                ),
+                                              ))
+                                  : Center(
+                                      child: MainErrorWidget(onPressed: () {
+                                        serviceLocator<AgriBloc>()
+                                            .add(IndexAgriEvent());
+                                      }),
+                                    );
+                        }),
                   )
                 ],
               ),

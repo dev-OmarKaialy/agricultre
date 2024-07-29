@@ -1,26 +1,48 @@
+import 'package:first_app/core/extensions/widget_extensions.dart';
+import 'package:first_app/core/shared/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/components/accordion/gf_accordion.dart';
+
+import '../../../core/shared/request_status.dart';
+import '../../../core/widgets/main_error_widget.dart';
+import '../../settings/bloc/settings_bloc.dart';
 
 // ignore: must_be_immutable
-class SettingCare extends StatelessWidget {
+class SettingCare extends StatefulWidget {
   const SettingCare({super.key});
+
+  @override
+  State<SettingCare> createState() => _SettingCareState();
+}
+
+class _SettingCareState extends State<SettingCare> {
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<SettingsBloc>().add(IndexCaresEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Get.dialog(Align(
-              alignment: Alignment.center,
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  width: 400,
-                  height: 300,
-                  child: AddAgriculure()),
-            ));
+            showAdaptiveDialog(
+                context: context,
+                builder: (c) {
+                  return (Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        width: 400,
+                        height: 300,
+                        child: addAgriculure()),
+                  ));
+                });
           },
         ),
         body: Container(
@@ -33,7 +55,7 @@ class SettingCare extends StatelessWidget {
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: () => Get.back(),
+                          onTap: () => Navigator.pop(context),
                           child: const Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
@@ -100,153 +122,78 @@ class SettingCare extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Wrap(
-                    children: []
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  // controller.element = e;
-                                  // Get.to(ShowDetailIllussionPageView());
-                                },
-                                child: Container(
-                                  width: 230,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 250, 249, 249),
-                                    border: Border.all(
-                                        width: 1.2,
-                                        //  color: Color.fromARGB(255, 107, 165, 56),
-                                        color: const Color.fromARGB(
-                                            255, 59, 92, 30)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(children: [
-                                    Container(
-                                      // width: 180,
-                                      // height: 200,
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 40, 8, 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Material(
-                                              child: Padding(
+                  SizedBox(
+                    height: context.height * .8,
+                    child: BlocBuilder<SettingsBloc, SettingsState>(
+                        bloc: serviceLocator<SettingsBloc>(),
+                        builder: (context, state) {
+                          return state.caresStatus == RequestStatus.loading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : state.caresStatus == RequestStatus.success
+                                  ? state.cares.isEmpty
+                                      ? const Center(
+                                          child: Text('No Agris Yet'),
+                                        )
+                                      : ListView.builder(
+                                          itemCount: state.cares.length,
+                                          itemBuilder: (context, index) =>
+                                              Padding(
                                                 padding:
-                                                    const EdgeInsets.all(6),
-                                                child: Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                          .width,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: const Color
-                                                              .fromARGB(
-                                                              255, 59, 92, 30)),
+                                                    const EdgeInsets.all(8.0),
+                                                child: ExpansionTile(
+                                                  trailing: const Icon(
+                                                          Icons.remove,
+                                                          color: Colors.red)
+                                                      .onTap(() {
+                                                    showAdaptiveDialog(
+                                                        context: context,
+                                                        builder: (c) {
+                                                          return Dialog(
+                                                            child: delete(state
+                                                                .cares[index]
+                                                                .id!),
+                                                          );
+                                                        });
+                                                  }),
+                                                  childrenPadding:
+                                                      const EdgeInsets.all(10),
+                                                  collapsedShape:
+                                                      RoundedRectangleBorder(
+                                                          side:
+                                                              const BorderSide(),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15)),
+                                                  shape: RoundedRectangleBorder(
+                                                      side: const BorderSide(),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              10)),
-                                                  child: GFAccordion(
-                                                    title: e.name!,
-                                                    textStyle: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 18,
-                                                        color: Color.fromARGB(
-                                                            255, 59, 92, 30),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .none),
-                                                    contentChild: const Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    8.0),
-                                                            child: Row(
-                                                              children: [
-                                                                Expanded(
-                                                                    child: Text(
-                                                                  "",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines: 6,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black87,
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none,
-                                                                      fontSize:
-                                                                          18,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                )),
-                                                              ],
-                                                              //  children: controller.AllCare.map,
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            // Text(
-                                            //   e.name!,
-                                            //   textAlign: TextAlign.center,
-                                            //   style: TextStyle(
-                                            //       color: Colors.white,
-                                            //       // Color.fromARGB(255, 59, 92, 30),
-                                            //       fontWeight: FontWeight.bold,
-                                            //       fontSize: 20),
-                                            // ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                    alignment: Alignment.center,
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        // width: 400,
-                                                        child: delete()),
-                                                  ));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  shadows: [
-                                                    Shadow(color: Colors.black)
+                                                              15)),
+                                                  title: Text(
+                                                      state.cares[index].name!),
+                                                  children: [
+                                                    Text(state.cares[index]
+                                                        .discrption!)
                                                   ],
-                                                  size: 40,
-                                                  color: Color.fromARGB(
-                                                      255, 117, 134, 19),
-                                                ))
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                                ),
-                              ),
-                            ))
-                        .toList(),
-                  ),
+                                                ),
+                                              ))
+                                  : Center(
+                                      child: MainErrorWidget(onPressed: () {
+                                        serviceLocator<SettingsBloc>()
+                                            .add(IndexCaresEvent());
+                                      }),
+                                    );
+                        }),
+                  )
                 ],
               ),
             )));
   }
 
-  Widget AddAgriculure() {
+  Widget addAgriculure() {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -378,7 +325,7 @@ class SettingCare extends StatelessWidget {
     );
   }
 
-  Widget delete() {
+  Widget delete(String id) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -401,7 +348,10 @@ class SettingCare extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  serviceLocator<SettingsBloc>().add(DeleteCaresEvent(id: id));
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(
@@ -417,7 +367,9 @@ class SettingCare extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(

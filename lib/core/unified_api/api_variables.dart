@@ -36,6 +36,8 @@ class ApiVariables {
   ///////////////
   ////care////
   Uri getCares() => _mainUri(path: 'cares');
+  Uri deleteIllusions(String id) => _mainUri(path: 'pests/$id');
+  Uri deleteCares(String id) => _mainUri(path: 'cares/$id');
   Uri getIllusions() => _mainUri(path: 'pests');
   ///////////////
   ///////chat////
@@ -49,6 +51,9 @@ class ApiVariables {
         path: 'chats/$id/messages',
       );
   Uri getStorage() => _mainUri(path: 'Storages');
+  Uri deleteStorage(String id) => _mainUri(path: 'Storages/$id');
+  Uri getAgri() => _mainUri(path: 'agr_machins');
+  Uri deleteAgri(String id) => _mainUri(path: 'agr_machins/$id');
   // Uri deleteMessage(String id) => _mainUri(path: 'users/$id');
   // Uri updateMessage(String id) => _mainUri(path: 'users/$id');
   ///////////////

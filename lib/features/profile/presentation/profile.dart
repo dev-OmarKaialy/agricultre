@@ -218,7 +218,7 @@ class _ProfilePageViewState extends State<ProfilePageView> {
   //         padding: const EdgeInsets.all(8.0),
   //         child: ElevatedButton(
   //           onPressed: () {
-  //             Get.to(EditprofileViewPage());
+  //             Navigator.push(context,EditprofileViewPage());
   //           },
   //           style: ElevatedButton.styleFrom(
   //               backgroundColor: const Color.fromARGB(255, 59, 92, 30),

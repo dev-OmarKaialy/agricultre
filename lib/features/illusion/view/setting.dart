@@ -1,18 +1,35 @@
+import 'package:first_app/core/shared/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../settings/bloc/settings_bloc.dart';
 import 'add_illusion.dart';
 
 // ignore: must_be_immutable
-class SettinfIllusionPageView extends StatelessWidget {
+class SettinfIllusionPageView extends StatefulWidget {
   const SettinfIllusionPageView({super.key});
+
+  @override
+  State<SettinfIllusionPageView> createState() =>
+      _SettinfIllusionPageViewState();
+}
+
+class _SettinfIllusionPageViewState extends State<SettinfIllusionPageView> {
+  @override
+  void initState() {
+    serviceLocator<SettingsBloc>().add(IndexIllusionEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Get.to(AddIllusionPageView());
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AddIllusionPageView();
+            }));
           },
         ),
         body: Container(
@@ -92,103 +109,117 @@ class SettinfIllusionPageView extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Wrap(
-                    children: []
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  // controller.element = e;
-                                  // Get.to(ShowDetailIllussionPageView());
-                                },
-                                child: Container(
-                                  width: 230,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 250, 249, 249),
-                                    border: Border.all(
-                                        width: 1.2,
-                                        //  color: Color.fromARGB(255, 107, 165, 56),
-                                        color: const Color.fromARGB(
-                                            255, 213, 243, 215)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(children: [
-                                    Container(
-                                      width: 200,
-                                      height: 180,
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    bloc: serviceLocator<SettingsBloc>(),
+                    builder: (context, state) {
+                      return Wrap(
+                        children: state.illusions
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      // controller.element = e;
+                                      // Navigator.push(context,ShowDetailIllussionPageView());
+                                    },
+                                    child: Container(
+                                      width: 230,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: const Color.fromARGB(
-                                                  255, 199, 198, 198)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                e.url!,
-                                              ),
-                                              colorFilter: ColorFilter.mode(
-                                                  Colors.grey.withOpacity(0.7),
-                                                  BlendMode.modulate))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 40, 8, 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              e.name!,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  // Color.fromARGB(255, 59, 92, 30),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                    alignment: Alignment.center,
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        width: 400,
-                                                        height: 150,
-                                                        child: delete()),
-                                                  ));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  shadows: [
-                                                    Shadow(color: Colors.black)
-                                                  ],
-                                                  size: 40,
-                                                  color: Color.fromARGB(
-                                                      255, 117, 134, 19),
-                                                ))
-                                          ],
-                                        ),
+                                        color: const Color.fromARGB(
+                                            255, 250, 249, 249),
+                                        border: Border.all(
+                                            width: 1.2,
+                                            //  color: Color.fromARGB(255, 107, 165, 56),
+                                            color: const Color.fromARGB(
+                                                255, 213, 243, 215)),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      child: Column(children: [
+                                        Container(
+                                          width: 200,
+                                          height: 180,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: const Color.fromARGB(
+                                                      255, 199, 198, 198)),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    e.photo!,
+                                                  ),
+                                                  colorFilter: ColorFilter.mode(
+                                                      Colors.grey
+                                                          .withOpacity(0.7),
+                                                      BlendMode.modulate))),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 40, 8, 8),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  e.name!,
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      // Color.fromARGB(255, 59, 92, 30),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
+                                                ),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      showAdaptiveDialog(
+                                                          context: context,
+                                                          builder: (c) =>
+                                                              (Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Container(
+                                                                    decoration: BoxDecoration(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                20)),
+                                                                    width: 400,
+                                                                    height: 150,
+                                                                    child: delete(
+                                                                        e.id!)),
+                                                              )));
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      shadows: [
+                                                        Shadow(
+                                                            color: Colors.black)
+                                                      ],
+                                                      size: 40,
+                                                      color: Color.fromARGB(
+                                                          255, 117, 134, 19),
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
                                     ),
-                                  ]),
-                                ),
-                              ),
-                            ))
-                        .toList(),
+                                  ),
+                                ))
+                            .toList(),
+                      );
+                    },
                   ),
                 ],
               ),
             )));
   }
 
-  Widget delete() {
+  Widget delete(String id) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -211,7 +242,11 @@ class SettinfIllusionPageView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  serviceLocator<SettingsBloc>()
+                      .add(DeleteIllusionEvent(id: id));
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(
@@ -227,7 +262,9 @@ class SettinfIllusionPageView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(

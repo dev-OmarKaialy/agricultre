@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'showDetails.dart';
 
@@ -96,7 +95,10 @@ class ShowPlantPageView extends StatelessWidget {
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
                                 onTap: () {
-                                  Get.to(const DetailsPageView());
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return const DetailsPageView();
+                                  }));
                                 },
                                 child: Container(
                                   width: 230,

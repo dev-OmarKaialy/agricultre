@@ -1,6 +1,5 @@
 import 'package:first_app/features/illusion/view/illusion.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
 // ignore: must_be_immutable
@@ -50,7 +49,10 @@ class DetailsPageView extends StatelessWidget {
                             cardDescript("فترة الحصاد", ''),
                             InkWell(
                               onTap: () {
-                                Get.to(const IllsionPageView());
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return const IllsionPageView();
+                                }));
                               },
                               child: Material(
                                 child: Padding(
@@ -73,7 +75,11 @@ class DetailsPageView extends StatelessWidget {
                                           decoration: TextDecoration.none),
                                       contentChild: TextButton(
                                         onPressed: () {
-                                          Get.to(const IllsionPageView());
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return const IllsionPageView();
+                                          }));
                                         },
                                         child: const Center(
                                           child: Text(

@@ -1,7 +1,6 @@
 import 'package:first_app/features/showPlant/view/add_plant.dart';
 import 'package:first_app/features/showPlant/view/update_plant.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class SettingPlantPageView extends StatelessWidget {
@@ -12,7 +11,9 @@ class SettingPlantPageView extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Get.to(AddPlantPageView());
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return AddPlantPageView();
+            }));
           },
         ),
         body: Container(
@@ -99,7 +100,7 @@ class SettingPlantPageView extends StatelessWidget {
                               child: InkWell(
                                 onTap: () {
                                   // controller.element = e;
-                                  // Get.to(ShowDetailIllussionPageView());
+                                  // Navigator.push(context,ShowDetailIllussionPageView());
                                 },
                                 child: Container(
                                   width: 230,
@@ -155,8 +156,12 @@ class SettingPlantPageView extends StatelessWidget {
                                                 IconButton(
                                                     onPressed: () {
                                                       print(e.agricultureTime);
-                                                      Get.to(
-                                                          UpdatePlantPageView());
+                                                      Navigator.push(context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) {
+                                                        return UpdatePlantPageView();
+                                                      }));
                                                     },
                                                     icon: const Icon(Icons.edit,
                                                         shadows: [
@@ -168,21 +173,26 @@ class SettingPlantPageView extends StatelessWidget {
                                                         color: Colors.green)),
                                                 IconButton(
                                                     onPressed: () {
-                                                      Get.dialog(Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Container(
-                                                            decoration: BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            20)),
-                                                            width: 400,
-                                                            height: 150,
-                                                            child: delete()),
-                                                      ));
+                                                      showAdaptiveDialog(
+                                                          context: context,
+                                                          builder: (c) {
+                                                            return (Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20)),
+                                                                  width: 400,
+                                                                  height: 150,
+                                                                  child:
+                                                                      delete()),
+                                                            ));
+                                                          });
                                                     },
                                                     icon: const Icon(
                                                         Icons.delete,

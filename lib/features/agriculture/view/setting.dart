@@ -1,25 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
+import '../../../core/shared/service_locator.dart';
+import '../../settings/bloc/settings_bloc.dart';
+
 // ignore: must_be_immutable
-class SettingAgriculturePageView extends StatelessWidget {
+class SettingAgriculturePageView extends StatefulWidget {
   const SettingAgriculturePageView({super.key});
+
+  @override
+  State<SettingAgriculturePageView> createState() =>
+      _SettingAgriculturePageViewState();
+}
+
+class _SettingAgriculturePageViewState
+    extends State<SettingAgriculturePageView> {
+  @override
+  void initState() {
+    serviceLocator<SettingsBloc>().add(IndexAgrisEvent());
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            Get.dialog(Align(
-              alignment: Alignment.center,
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20)),
-                  width: 400,
-                  height: 300,
-                  child: AddAgriculure()),
-            ));
+            showAdaptiveDialog(
+                context: context,
+                builder: (c) {
+                  return (Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        width: 400,
+                        height: 300,
+                        child: AddAgriculure()),
+                  ));
+                });
           },
         ),
         body: Container(
@@ -99,97 +122,100 @@ class SettingAgriculturePageView extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Wrap(
-                    //TODO illusion
-                    children: []
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                onTap: () {
-                                  // controller.element = e;
-                                  // Get.to(ShowDetailIllussionPageView());
-                                },
-                                child: Container(
-                                  width: 230,
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(
-                                        255, 250, 249, 249),
-                                    border: Border.all(
-                                        width: 1.2,
-                                        //  color: Color.fromARGB(255, 107, 165, 56),
-                                        color: const Color.fromARGB(
-                                            255, 213, 243, 215)),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(children: [
-                                    Container(
-                                      width: 200,
-                                      height: 180,
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    bloc: serviceLocator<SettingsBloc>(),
+                    builder: (context, state) {
+                      return Wrap(
+                        children: state.agris
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      width: 230,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          border: Border.all(
-                                              width: 2,
-                                              color: const Color.fromARGB(
-                                                  255, 199, 198, 198)),
-                                          image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: AssetImage(
-                                                e.url!,
-                                              ),
-                                              colorFilter: ColorFilter.mode(
-                                                  Colors.grey.withOpacity(0.7),
-                                                  BlendMode.modulate))),
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            8, 40, 8, 8),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              e.name!,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  // Color.fromARGB(255, 59, 92, 30),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                    alignment: Alignment.center,
-                                                    child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        20)),
-                                                        width: 400,
-                                                        height: 150,
-                                                        child: delete()),
-                                                  ));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  shadows: [
-                                                    Shadow(color: Colors.black)
-                                                  ],
-                                                  size: 40,
-                                                  color: Color.fromARGB(
-                                                      255, 117, 134, 19),
-                                                ))
-                                          ],
-                                        ),
+                                        color: const Color.fromARGB(
+                                            255, 250, 249, 249),
+                                        border: Border.all(
+                                            width: 1.2,
+                                            //  color: Color.fromARGB(255, 107, 165, 56),
+                                            color: const Color.fromARGB(
+                                                255, 213, 243, 215)),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
+                                      child: Column(children: [
+                                        Container(
+                                          width: 200,
+                                          height: 180,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            border: Border.all(
+                                                width: 2,
+                                                color: const Color.fromARGB(
+                                                    255, 199, 198, 198)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 40, 8, 8),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  e.name!,
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      // Color.fromARGB(255, 59, 92, 30),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
+                                                ),
+                                                IconButton(
+                                                    onPressed: () {
+                                                      showAdaptiveDialog(
+                                                          context: context,
+                                                          builder: (c) {
+                                                            return (Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20)),
+                                                                  width: 400,
+                                                                  height: 150,
+                                                                  child: delete(
+                                                                      e.id!)),
+                                                            ));
+                                                          });
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.delete,
+                                                      shadows: [
+                                                        Shadow(
+                                                            color: Colors.black)
+                                                      ],
+                                                      size: 40,
+                                                      color: Color.fromARGB(
+                                                          255, 117, 134, 19),
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
                                     ),
-                                  ]),
-                                ),
-                              ),
-                            ))
-                        .toList(),
+                                  ),
+                                ))
+                            .toList(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -328,7 +354,7 @@ class SettingAgriculturePageView extends StatelessWidget {
     );
   }
 
-  Widget delete() {
+  Widget delete(String id) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -351,7 +377,10 @@ class SettingAgriculturePageView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  serviceLocator<SettingsBloc>().add(DeleteAgrisEvent(id: id));
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(
@@ -367,7 +396,9 @@ class SettingAgriculturePageView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                     shape: RoundedRectangleBorder(

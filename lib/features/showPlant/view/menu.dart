@@ -294,7 +294,7 @@ class Getwid extends StatelessWidget {
             // Material(
             //     child: InkWell(
             //         onTap: () {
-            //           Get.to(IrrigationPageView());
+            //           Navigator.push(context,IrrigationPageView());
             //         },
             //         child: icontext("طرق الري"))),
             Material(
@@ -310,7 +310,7 @@ class Getwid extends StatelessWidget {
             // Material(
             //     child: InkWell(
             //         onTap: () {
-            //           Get.to(SeasonsPageView());
+            //           Navigator.push(context,SeasonsPageView());
             //         },
             //         child: icontext("المواسم"))),
             const SizedBox(

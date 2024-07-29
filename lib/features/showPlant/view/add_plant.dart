@@ -24,7 +24,7 @@ class AddPlantPageView extends StatelessWidget {
                     child: Row(
                       children: [
                         InkWell(
-                          onTap: () => Get.back(),
+                          onTap: () => Navigator.pop(context),
                           child: const Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
@@ -479,7 +479,7 @@ void openBottomSheet() {
           ),
           // OutlinedButton(
           //   onPressed: () {
-          //     Get.back();
+          //     Navigator.pop(context);
           //   },
           //   child: const Text('Close'),
           // ),
