@@ -1,6 +1,8 @@
 import 'package:first_app/core/models/create_doc_model.dart';
+import 'package:first_app/core/models/create_illusion_model.dart';
 import 'package:first_app/core/unified_api/api_variables.dart';
 import 'package:first_app/core/unified_api/delete_api.dart';
+import 'package:first_app/core/unified_api/multi_post_api.dart';
 import 'package:first_app/core/unified_api/post_api.dart';
 import 'package:first_app/features/agriculture/data/datasource/agri_datasource.dart';
 import 'package:first_app/features/care/data/datasource/care_datasource.dart';
@@ -69,6 +71,19 @@ class SettingsDatasource {
         uri: ApiVariables().getStorage(),
         body: {'name': name, 'discrption': description},
         fromJson: createDocModelFromJson);
+    return await postApi.callRequest();
+  }
+
+  Future<CreateIllusionModel> createPests(
+      String name, String description, String photo) async {
+    final postApi = MultiPostApi(
+        uri: ApiVariables().getIllusions(),
+        files: {'photo': photo},
+        body: {
+          'name': name,
+          'symptoms_of_injury': description,
+        },
+        fromJson: createIllusionModelFromJson);
     return await postApi.callRequest();
   }
 }

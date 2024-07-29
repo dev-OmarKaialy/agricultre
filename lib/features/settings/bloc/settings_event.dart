@@ -65,3 +65,14 @@ class CreateAgriEvent extends SettingsEvent {
     required this.descriptino,
   });
 }
+
+class CreateIllusionEvent extends SettingsEvent {
+  final String name;
+  final String descriptino;
+  final String photo;
+  CreateIllusionEvent({
+    required this.name,
+    required this.descriptino,
+    required this.photo,
+  });
+}

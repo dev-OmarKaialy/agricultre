@@ -1,3 +1,4 @@
+import 'package:first_app/core/extensions/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
@@ -283,110 +284,119 @@ class _SettingStorageState extends State<SettingStorage> {
   Widget AddAgriculure() {
     final nameController = TextEditingController();
     final descriptionController = TextEditingController();
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
-              child: Text(
-                "اضافة طريقة جديدة",
-                style: TextStyle(
-                    decoration: TextDecoration.none,
-                    color: Color.fromARGB(255, 59, 92, 30),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    fontFamily: "Pacifico"),
+    final formKey = GlobalKey<FormState>();
+    return Form(
+      key: formKey,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  "اضافة طريقة جديدة",
+                  style: TextStyle(
+                      decoration: TextDecoration.none,
+                      color: Color.fromARGB(255, 59, 92, 30),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontFamily: "Pacifico"),
+                ),
               ),
             ),
-          ),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 450,
-                child: Material(
-                  child: TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                        labelText: "اسم الطريقة الجديدة",
-                        labelStyle: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromARGB(255, 194, 192, 192)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromARGB(255, 194, 192, 192)),
-                          borderRadius: BorderRadius.circular(15),
-                        )),
-                    onChanged: (value) {},
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 450,
+                  child: Material(
+                    child: TextFormField(
+                      validator: (value) =>
+                          value.isEmptyOrNull ? 'Enter Valid Name' : null,
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          labelText: "اسم الطريقة الجديدة",
+                          labelStyle: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 194, 192, 192)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 194, 192, 192)),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
+                      onChanged: (value) {},
+                    ),
                   ),
-                ),
-              )),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 450,
-                child: Material(
-                  child: TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    decoration: InputDecoration(
-                        labelText: "معلومات عن طريقة التخزين",
-                        labelStyle: const TextStyle(
-                            color: Colors.black87,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromARGB(255, 194, 192, 192)),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              width: 1,
-                              color: Color.fromARGB(255, 194, 192, 192)),
-                          borderRadius: BorderRadius.circular(15),
-                        )),
-                    onChanged: (value) {},
-                    controller: descriptionController,
+                )),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 450,
+                  child: Material(
+                    child: TextFormField(
+                      validator: (value) =>
+                          value.isEmptyOrNull ? 'Enter Valid Name' : null,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          labelText: "معلومات عن طريقة التخزين",
+                          labelStyle: const TextStyle(
+                              color: Colors.black87,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 194, 192, 192)),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 1,
+                                color: Color.fromARGB(255, 194, 192, 192)),
+                            borderRadius: BorderRadius.circular(15),
+                          )),
+                      onChanged: (value) {},
+                      controller: descriptionController,
+                    ),
                   ),
+                )),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    serviceLocator<SettingsBloc>().add(CreateStorageEvent(
+                        name: nameController.text,
+                        descriptino: descriptionController.text));
+                    Navigator.pop(context);
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 59, 92, 30),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 30)),
+                child: const Text(
+                  "اضافة ",
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
-              )),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                serviceLocator<SettingsBloc>().add(CreateStorageEvent(
-                    name: nameController.text,
-                    descriptino: descriptionController.text));
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 59, 92, 30),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30)),
-              child: const Text(
-                "اضافة ",
-                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

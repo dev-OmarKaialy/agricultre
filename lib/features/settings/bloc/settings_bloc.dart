@@ -161,5 +161,20 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       });
       Toaster.closeLoading();
     });
+    on<CreateIllusionEvent>((event, emit) async {
+      Toaster.showLoading();
+      final result = await SettingsRepo()
+          .createIllusion(event.name, event.descriptino, event.photo);
+      result.fold((l) {
+        Toaster.showToast(l.message);
+      }, (r) {
+        emit(
+          state.copyWith(
+            illusions: List.of(state.illusions)..add(r.doc!),
+          ),
+        );
+      });
+      Toaster.closeLoading();
+    });
   }
 }

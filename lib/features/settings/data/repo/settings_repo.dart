@@ -5,6 +5,7 @@ import 'package:first_app/features/settings/data/datasource/settings_datasource.
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/models/create_doc_model.dart';
+import '../../../../core/models/create_illusion_model.dart';
 import '../../../../core/unified_api/handling_exception_manager.dart';
 import '../../../storage/data/models/storage_model.dart';
 
@@ -75,6 +76,14 @@ class SettingsRepo with HandlingExceptionManager {
       String name, String description) async {
     return wrapHandling(tryCall: () async {
       return Right(await SettingsDatasource().createStorage(name, description));
+    });
+  }
+
+  Future<Either<Failure, CreateIllusionModel>> createIllusion(
+      String name, String description, String photo) async {
+    return wrapHandling(tryCall: () async {
+      return Right(
+          await SettingsDatasource().createPests(name, description, photo));
     });
   }
 }
