@@ -1,5 +1,7 @@
+import 'package:first_app/core/models/create_doc_model.dart';
 import 'package:first_app/core/unified_api/api_variables.dart';
 import 'package:first_app/core/unified_api/delete_api.dart';
+import 'package:first_app/core/unified_api/post_api.dart';
 import 'package:first_app/features/agriculture/data/datasource/agri_datasource.dart';
 import 'package:first_app/features/care/data/datasource/care_datasource.dart';
 import 'package:first_app/features/illusion/data/datasource/illusion_datasource.dart';
@@ -44,5 +46,29 @@ class SettingsDatasource {
     final deleteApi =
         DeleteApi(uri: ApiVariables().deleteIllusions(id), fromJson: (s) {});
     return await deleteApi.callRequest();
+  }
+
+  Future<CreateDocModel> createAgri(String name, String description) async {
+    final postApi = PostApi(
+        uri: ApiVariables().getAgri(),
+        body: {'name': name, 'discrption': description},
+        fromJson: createDocModelFromJson);
+    return await postApi.callRequest();
+  }
+
+  Future<CreateDocModel> createCare(String name, String description) async {
+    final postApi = PostApi(
+        uri: ApiVariables().getCares(),
+        body: {'name': name, 'discrption': description},
+        fromJson: createDocModelFromJson);
+    return await postApi.callRequest();
+  }
+
+  Future<CreateDocModel> createStorage(String name, String description) async {
+    final postApi = PostApi(
+        uri: ApiVariables().getStorage(),
+        body: {'name': name, 'discrption': description},
+        fromJson: createDocModelFromJson);
+    return await postApi.callRequest();
   }
 }

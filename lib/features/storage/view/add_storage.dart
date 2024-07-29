@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 
 import '../../../core/shared/service_locator.dart';
@@ -126,7 +125,7 @@ class _SettingStorageState extends State<SettingStorage> {
                     builder: (context, state) {
                       return Wrap(
                         children: state.storages
-                            .map((e) => Padding(
+                            .map((element) => Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Container(
                                     width: 230,
@@ -168,7 +167,7 @@ class _SettingStorageState extends State<SettingStorage> {
                                                             BorderRadius
                                                                 .circular(10)),
                                                     child: GFAccordion(
-                                                      title: e.name!,
+                                                      title: element.name!,
                                                       textStyle:
                                                           const TextStyle(
                                                               fontWeight:
@@ -184,26 +183,27 @@ class _SettingStorageState extends State<SettingStorage> {
                                                               decoration:
                                                                   TextDecoration
                                                                       .none),
-                                                      contentChild: const Column(
+                                                      contentChild: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .start,
                                                           children: [
                                                             Padding(
                                                               padding:
-                                                                  EdgeInsets
+                                                                  const EdgeInsets
                                                                       .all(8.0),
                                                               child: Row(
                                                                 children: [
                                                                   Expanded(
                                                                       child:
                                                                           Text(
-                                                                    "",
+                                                                    element
+                                                                        .discrption!,
                                                                     overflow:
                                                                         TextOverflow
                                                                             .ellipsis,
                                                                     maxLines: 6,
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                         color: Colors
                                                                             .black87,
                                                                         decoration:
@@ -249,7 +249,8 @@ class _SettingStorageState extends State<SettingStorage> {
                                                                             20)),
                                                                 // width: 400,
                                                                 child: delete(
-                                                                    e.id!)),
+                                                                    element
+                                                                        .id!)),
                                                           ));
                                                         });
                                                   },
@@ -280,6 +281,9 @@ class _SettingStorageState extends State<SettingStorage> {
   }
 
   Widget AddAgriculure() {
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -304,6 +308,7 @@ class _SettingStorageState extends State<SettingStorage> {
                 width: 450,
                 child: Material(
                   child: TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                         labelText: "اسم الطريقة الجديدة",
                         labelStyle: const TextStyle(
@@ -353,6 +358,7 @@ class _SettingStorageState extends State<SettingStorage> {
                           borderRadius: BorderRadius.circular(15),
                         )),
                     onChanged: (value) {},
+                    controller: descriptionController,
                   ),
                 ),
               )),
@@ -363,36 +369,10 @@ class _SettingStorageState extends State<SettingStorage> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                if (2 != 1) {
-                  //تحقق اسم الافة غير موجود مسبقا
-                  Get.snackbar(
-                    "جيد",
-                    "تمت اضافة طريقة  ",
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color.fromARGB(255, 59, 92, 30),
-                    borderRadius: 20,
-                    margin: const EdgeInsets.all(15),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 4),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
-                } else {
-                  Get.snackbar(
-                    "خطا",
-                    "هذه الطريقة موجودة مسبقا",
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color.fromARGB(255, 59, 92, 30),
-                    borderRadius: 20,
-                    margin: const EdgeInsets.all(15),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 4),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
-                }
+                serviceLocator<SettingsBloc>().add(CreateStorageEvent(
+                    name: nameController.text,
+                    descriptino: descriptionController.text));
+                Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 59, 92, 30),

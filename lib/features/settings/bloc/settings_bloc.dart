@@ -107,5 +107,59 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       });
       Toaster.closeLoading();
     });
+    on<CreateStorageEvent>((event, emit) async {
+      Toaster.showLoading();
+      final result =
+          await SettingsRepo().createStorage(event.name, event.descriptino);
+      result.fold((l) {
+        Toaster.showToast(l.message);
+      }, (r) {
+        emit(
+          state.copyWith(
+            storages: List.of(state.storages)
+              ..add(
+                StorageModel.fromJson(r.doc!.toJson()),
+              ),
+          ),
+        );
+      });
+      Toaster.closeLoading();
+    });
+    on<CreateCareEvent>((event, emit) async {
+      Toaster.showLoading();
+      final result =
+          await SettingsRepo().createCare(event.name, event.descriptino);
+      result.fold((l) {
+        Toaster.showToast(l.message);
+      }, (r) {
+        emit(
+          state.copyWith(
+            cares: List.of(state.cares)
+              ..add(
+                CareModel.fromJson(r.doc!.toJson()),
+              ),
+          ),
+        );
+      });
+      Toaster.closeLoading();
+    });
+    on<CreateAgriEvent>((event, emit) async {
+      Toaster.showLoading();
+      final result =
+          await SettingsRepo().createAgri(event.name, event.descriptino);
+      result.fold((l) {
+        Toaster.showToast(l.message);
+      }, (r) {
+        emit(
+          state.copyWith(
+            agris: List.of(state.agris)
+              ..add(
+                CareModel.fromJson(r.doc!.toJson()),
+              ),
+          ),
+        );
+      });
+      Toaster.closeLoading();
+    });
   }
 }

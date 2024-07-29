@@ -1,4 +1,5 @@
 import 'package:first_app/core/shared/service_locator.dart';
+import 'package:first_app/features/illusion/view/showdetils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -119,7 +120,12 @@ class _SettinfIllusionPageViewState extends State<SettinfIllusionPageView> {
                                   child: InkWell(
                                     onTap: () {
                                       // controller.element = e;
-                                      // Navigator.push(context,ShowDetailIllussionPageView());
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return ShowDetailIllussionPageView(
+                                          illusion: e,
+                                        );
+                                      }));
                                     },
                                     child: Container(
                                       width: 230,

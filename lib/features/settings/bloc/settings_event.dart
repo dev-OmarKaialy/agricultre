@@ -38,3 +38,30 @@ class DeleteCaresEvent extends SettingsEvent {
     required this.id,
   });
 }
+
+class CreateCareEvent extends SettingsEvent {
+  final String name;
+  final String descriptino;
+  CreateCareEvent({
+    required this.name,
+    required this.descriptino,
+  });
+}
+
+class CreateStorageEvent extends SettingsEvent {
+  final String name;
+  final String descriptino;
+  CreateStorageEvent({
+    required this.name,
+    required this.descriptino,
+  });
+}
+
+class CreateAgriEvent extends SettingsEvent {
+  final String name;
+  final String descriptino;
+  CreateAgriEvent({
+    required this.name,
+    required this.descriptino,
+  });
+}

@@ -194,6 +194,8 @@ class _SettingCareState extends State<SettingCare> {
   }
 
   Widget addAgriculure() {
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -218,6 +220,7 @@ class _SettingCareState extends State<SettingCare> {
                 width: 450,
                 child: Material(
                   child: TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                         labelText: "اسم الطريقة الجديدة",
                         labelStyle: const TextStyle(
@@ -246,6 +249,7 @@ class _SettingCareState extends State<SettingCare> {
                 width: 450,
                 child: Material(
                   child: TextFormField(
+                    controller: descriptionController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
                     decoration: InputDecoration(
@@ -277,36 +281,10 @@ class _SettingCareState extends State<SettingCare> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                if (2 != 1) {
-                  //تحقق اسم الافة غير موجود مسبقا
-                  Get.snackbar(
-                    "جيد",
-                    "تمت اضافة طريقة  ",
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color.fromARGB(255, 59, 92, 30),
-                    borderRadius: 20,
-                    margin: const EdgeInsets.all(15),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 4),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
-                } else {
-                  Get.snackbar(
-                    "خطا",
-                    "هذه الطريقة موجودة مسبقا",
-                    icon: const Icon(Icons.person, color: Colors.white),
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: const Color.fromARGB(255, 59, 92, 30),
-                    borderRadius: 20,
-                    margin: const EdgeInsets.all(15),
-                    colorText: Colors.white,
-                    duration: const Duration(seconds: 4),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
-                }
+                serviceLocator<SettingsBloc>().add(CreateCareEvent(
+                    name: nameController.text,
+                    descriptino: descriptionController.text));
+                Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 59, 92, 30),

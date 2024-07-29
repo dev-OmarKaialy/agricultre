@@ -52,8 +52,7 @@ class _ShowDetailIllussionPageViewState
                   ClipRRect(
                       borderRadius: BorderRadius.circular(28),
                       child: FadeInImage.assetNetwork(
-                        image: widget.illusion.photo!
-                            .replaceAll('localhost', '10.0.2.2'),
+                        image: widget.illusion.photo!,
                         placeholder: 'assets/images/1a.png',
                         fit: BoxFit.cover,
                       )),
