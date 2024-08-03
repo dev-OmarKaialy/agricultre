@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'core/shared/service_locator.dart';
 
+final rootKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Future.wait([SharedPreferencesService.init(), init()]);
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorKey: rootKey,
       title: 'Flutter Project',
       key: key,
       theme: ThemeData.light(),

@@ -1,6 +1,8 @@
+import 'package:first_app/core/cubit/advertisment_cubit.dart';
 import 'package:first_app/core/shared/request_status.dart';
 import 'package:first_app/core/shared/service_locator.dart';
 import 'package:first_app/core/widgets/yes_no_dialog.dart';
+import 'package:first_app/features/advice/presentation/pages/all_advice.dart';
 import 'package:first_app/features/agriculture/view/agriculture.dart';
 import 'package:first_app/features/care/view/care.dart';
 import 'package:first_app/features/illusion/view/illusion.dart';
@@ -16,8 +18,20 @@ import '../../settings/view/setting.dart';
 import 'showplant.dart';
 
 // ignore: must_be_immutable
-class MenuPageView extends StatelessWidget {
+class MenuPageView extends StatefulWidget {
   const MenuPageView({super.key});
+
+  @override
+  State<MenuPageView> createState() => _MenuPageViewState();
+}
+
+class _MenuPageViewState extends State<MenuPageView> {
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<AdvertismentCubit>().getAdverts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,8 +133,10 @@ class MenuPageView extends StatelessWidget {
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
           child: InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ShowPlantPageView()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ShowPlantPageView()));
             },
             child: Container(
               width: 200,
@@ -271,6 +287,16 @@ class Getwid extends StatelessWidget {
                     },
                     child: icontext("طرق العناية "))),
             Material(
+                child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AllAdvicePageView(),
+                          ));
+                    },
+                    child: icontext("النصائح"))),
+            Material(
               child: InkWell(
                   onTap: () {
                     Navigator.push(
@@ -303,7 +329,7 @@ class Getwid extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AgriculturePageView(),
+                            builder: (context) => const AgriculturePageView(),
                           ));
                     },
                     child: icontext("الية الزراعة"))),
@@ -363,7 +389,7 @@ class Getwid extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SettingPageView(),
+                          builder: (context) => const SettingPageView(),
                         ));
                   },
                   child: icontextt("الاعدادات", Icons.settings)),

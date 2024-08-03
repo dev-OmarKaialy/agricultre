@@ -5,7 +5,7 @@ class ApiVariables {
   ///General///
   /////////////
   final _scheme = 'http';
-  final _host = "localhost";
+  final _host = "10.0.2.2";
 
   Uri _mainUri({
     required String path,
@@ -50,6 +50,7 @@ class ApiVariables {
   Uri sendMessage(String id) => _mainUri(
         path: 'chats/$id/messages',
       );
+  Uri adverts() => _mainUri(path: 'advrtisements');
   Uri getStorage() => _mainUri(path: 'Storages');
   Uri deleteStorage(String id) => _mainUri(path: 'Storages/$id');
   Uri getAgri() => _mainUri(path: 'agr_machins');

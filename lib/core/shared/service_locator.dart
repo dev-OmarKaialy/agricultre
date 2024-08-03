@@ -1,3 +1,4 @@
+import 'package:first_app/core/cubit/advertisment_cubit.dart';
 import 'package:first_app/features/auth/bloc/auth_bloc.dart';
 import 'package:first_app/features/care/bloc/care_bloc.dart';
 import 'package:first_app/features/chat/bloc/chat_bloc.dart';
@@ -19,4 +20,6 @@ Future<void> init() async {
   serviceLocator.registerLazySingleton<ChatBloc>(() => ChatBloc());
   serviceLocator.registerLazySingleton<AgriBloc>(() => AgriBloc());
   serviceLocator.registerLazySingleton<SettingsBloc>(() => SettingsBloc());
+  serviceLocator
+      .registerLazySingleton<AdvertismentCubit>(() => AdvertismentCubit());
 }

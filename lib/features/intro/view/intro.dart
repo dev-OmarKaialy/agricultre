@@ -38,7 +38,7 @@ class IntroPageView extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (c) =>
                           SharedPreferencesService.getToken() != null
-                              ? MenuPageView()
+                              ? const MenuPageView()
                               : const Intro3PageView(),
                     ),
                   );
