@@ -51,6 +51,7 @@ class ApiVariables {
         path: 'chats/$id/messages',
       );
   Uri adverts() => _mainUri(path: 'advrtisements');
+  Uri advices() => _mainUri(path: 'advices');
   Uri getStorage() => _mainUri(path: 'Storages');
   Uri deleteStorage(String id) => _mainUri(path: 'Storages/$id');
   Uri getAgri() => _mainUri(path: 'agr_machins');

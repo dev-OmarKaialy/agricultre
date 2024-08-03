@@ -1,11 +1,25 @@
+import 'package:first_app/core/shared/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/advice_bloc.dart';
 
 // ignore: must_be_immutable
-class AllAdvicePageView extends StatelessWidget {
-  var isArculthire = false;
+class AllAdvicePageView extends StatefulWidget {
+  const AllAdvicePageView({super.key});
 
-  AllAdvicePageView({super.key});
+  @override
+  State<AllAdvicePageView> createState() => _AllAdvicePageViewState();
+}
+
+class _AllAdvicePageViewState extends State<AllAdvicePageView> {
+  var isArculthire = false;
+  @override
+  void initState() {
+    super.initState();
+    serviceLocator<AdviceBloc>().add(GetAdvices());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +59,7 @@ class AllAdvicePageView extends StatelessWidget {
                       child: Row(
                         children: [
                           InkWell(
-                            onTap: () => Get.back(),
+                            onTap: () => Navigator.pop(context),
                             child: const Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
@@ -71,10 +85,21 @@ class AllAdvicePageView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    shap(context, "Aya Aya",
-                        "اريد نصائح اضافية عن حياة النبتة والكثير منها", true),
-                    shap(context, "Ahmad Aya",
-                        "اتمنى اضافة معلومات اكثر عن الاليات الزراعية", false),
+                    BlocBuilder<AdviceBloc, AdviceState>(
+                      bloc: serviceLocator<AdviceBloc>(),
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            for (var i = 0; i < state.advices.length; i++)
+                              shap(
+                                  context,
+                                  state.advices[i].user?.name ?? '',
+                                  state.advices[i].description!,
+                                  state.advices[i].active ?? false)
+                          ],
+                        );
+                      },
+                    )
                   ]),
             ),
           ),
