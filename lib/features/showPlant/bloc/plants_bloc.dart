@@ -1,7 +1,5 @@
-import 'dart:nativewrappers/_internal/vm/lib/core_patch.dart';
-
 import 'package:bloc/bloc.dart';
-import 'package:first_app/core/data/plants_repo.dart';
+import 'package:first_app/features/showPlant/data/datasource/plants_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'plants_event.dart';

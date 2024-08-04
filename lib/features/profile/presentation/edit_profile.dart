@@ -143,6 +143,7 @@ class _EditprofileViewPageState extends State<EditprofileViewPage> {
                         child: Material(
                           child: TextFormField(
                             controller: emailController,
+                            enabled: false,
                             decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.email,

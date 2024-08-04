@@ -29,7 +29,7 @@ class _SettinfIllusionPageViewState extends State<SettinfIllusionPageView> {
           child: const Icon(Icons.add),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AddIllusionPageView();
+              return const AddIllusionPageView();
             }));
           },
         ),
@@ -161,17 +161,26 @@ class _SettinfIllusionPageViewState extends State<SettinfIllusionPageView> {
                                                       BlendMode.modulate))),
                                           child: Padding(
                                             padding: const EdgeInsets.fromLTRB(
-                                                8, 40, 8, 8),
+                                                8, 8, 8, 8),
                                             child: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
+                                                Image.network(
+                                                  e.photo?.replaceAll(
+                                                          'localhost',
+                                                          '10.0.2.2') ??
+                                                      '',
+                                                  height: 60,
+                                                  width: double.infinity,
+                                                  fit: BoxFit.fill,
+                                                ),
                                                 Text(
                                                   e.name!,
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
-                                                      color: Colors.white,
-                                                      // Color.fromARGB(255, 59, 92, 30),
+                                                      color: Color.fromARGB(
+                                                          255, 59, 92, 30),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 20),

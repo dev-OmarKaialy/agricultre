@@ -92,6 +92,8 @@ class _NewWidgetState extends State<NewWidget>
                     })
                   : CircularProgressIndicator.adaptive(
                       value: _animation.value,
+                      valueColor: const AlwaysStoppedAnimation(
+                          Color.fromARGB(255, 59, 92, 30)),
                     ),
             ),
           ),

@@ -51,14 +51,15 @@ class ApiVariables {
         path: 'chats/$id/messages',
       );
   Uri adverts() => _mainUri(path: 'advrtisements');
-  Uri advices() => _mainUri(path: 'advices');
+  Uri advices({String? id}) =>
+      _mainUri(path: id == null ? "advices" : 'advices/$id');
   Uri getStorage() => _mainUri(path: 'Storages');
   Uri deleteStorage(String id) => _mainUri(path: 'Storages/$id');
   Uri getAgri() => _mainUri(path: 'agr_machins');
   Uri deleteAgri(String id) => _mainUri(path: 'agr_machins/$id');
   Uri plants() => _mainUri(path: 'plants');
   Uri type_of_classifys() => _mainUri(path: 'type_of_classifys');
-  Uri type_of_classifys1(String id) => _mainUri(path: 'type_of_classifys/$id');
+  Uri typesOfClassifyByID(String id) => _mainUri(path: 'type_of_classifys/$id');
   // Uri deleteMessage(String id) => _mainUri(path: 'users/$id');
 
   // Uri updateMessage(String id) => _mainUri(path: 'users/$id');

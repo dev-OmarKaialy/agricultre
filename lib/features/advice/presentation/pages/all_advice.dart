@@ -1,4 +1,6 @@
+import 'package:first_app/core/extensions/widget_extensions.dart';
 import 'package:first_app/core/shared/service_locator.dart';
+import 'package:first_app/core/shared/shared_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -149,7 +151,7 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
                 ],
               ),
             ),
-            isArculture == false
+            SharedPreferencesService.getType() == 'admin'
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -167,7 +169,10 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
                             color: Colors.white,
                           ),
                         ),
-                      ),
+                      ).onTap(() {
+                        serviceLocator<AdviceBloc>().add(
+                            UpdateAdviceEvent(advice: advice, accept: true));
+                      }),
                       const SizedBox(
                         width: 5,
                       ),
@@ -185,7 +190,10 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
                             color: Colors.white,
                           ),
                         ),
-                      ),
+                      ).onTap(() {
+                        serviceLocator<AdviceBloc>().add(
+                            UpdateAdviceEvent(advice: advice, accept: true));
+                      }),
                     ],
                   )
                 : Container()
@@ -196,6 +204,7 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
   }
 
   Widget AddAdviceAdmain() {
+    final controller = TextEditingController();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -205,6 +214,7 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
               width: 450,
               child: Material(
                 child: TextFormField(
+                  controller: controller,
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration: InputDecoration(
@@ -232,7 +242,11 @@ class _AllAdvicePageViewState extends State<AllAdvicePageView> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              serviceLocator<AdviceBloc>()
+                  .add(AddAdviceEvent(advice: controller.text));
+              Navigator.pop(context);
+            },
             style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 59, 92, 30),
                 shape: RoundedRectangleBorder(

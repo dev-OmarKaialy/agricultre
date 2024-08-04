@@ -13,7 +13,7 @@ String indexTypeOfClassifyModelToJson(IndexTypeOfClassifyModel data) =>
 class IndexTypeOfClassifyModel {
   final String? status;
   final int? results;
-  final List<TypeOfClassify>? doc;
+  final List<Doc>? doc;
 
   IndexTypeOfClassifyModel({
     this.status,
@@ -27,8 +27,7 @@ class IndexTypeOfClassifyModel {
         results: json["results"],
         doc: json["doc"] == null
             ? []
-            : List<TypeOfClassify>.from(
-                json["doc"]!.map((x) => TypeOfClassify.fromJson(x))),
+            : List<Doc>.from(json["doc"]!.map((x) => Doc.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,10 +38,11 @@ class IndexTypeOfClassifyModel {
       };
 }
 
-class TypeOfClassify {
+class Doc {
   final String? id;
   final String? name;
   final String? plantingDate;
+  final dynamic agrMachine;
   final String? irrigation;
   final String? reepMethod;
   final String? photo;
@@ -55,10 +55,11 @@ class TypeOfClassify {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  TypeOfClassify({
+  Doc({
     this.id,
     this.name,
     this.plantingDate,
+    this.agrMachine,
     this.irrigation,
     this.reepMethod,
     this.photo,
@@ -72,10 +73,11 @@ class TypeOfClassify {
     this.updatedAt,
   });
 
-  factory TypeOfClassify.fromJson(Map<String, dynamic> json) => TypeOfClassify(
+  factory Doc.fromJson(Map<String, dynamic> json) => Doc(
         id: json["_id"],
         name: json["name"],
         plantingDate: json["planting_date"],
+        agrMachine: json["agr_machine"],
         irrigation: json["irrigation"],
         reepMethod: json["reep_method"],
         photo: json["photo"],
@@ -105,6 +107,7 @@ class TypeOfClassify {
         "_id": id,
         "name": name,
         "planting_date": plantingDate,
+        "agr_machine": agrMachine,
         "irrigation": irrigation,
         "reep_method": reepMethod,
         "photo": photo,

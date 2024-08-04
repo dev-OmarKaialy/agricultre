@@ -5,3 +5,19 @@ abstract class AdviceEvent {
 }
 
 class GetAdvices extends AdviceEvent {}
+
+class AddAdviceEvent extends AdviceEvent {
+  final String advice;
+  AddAdviceEvent({
+    required this.advice,
+  });
+}
+
+class UpdateAdviceEvent extends AdviceEvent {
+  final String advice;
+  final bool accept;
+  UpdateAdviceEvent({
+    required this.advice,
+    this.accept = false,
+  });
+}

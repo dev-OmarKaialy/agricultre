@@ -15,6 +15,14 @@ class SharedPreferencesService {
     return sp.getString('token');
   }
 
+  static Future<void> storeType(String type) async {
+    await sp.setString('type', type);
+  }
+
+  static String? getType() {
+    return sp.getString('type');
+  }
+
   static Future<void> storeFirstTime() async {
     await sp.setBool('firstTime', true);
   }

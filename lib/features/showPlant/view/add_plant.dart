@@ -1,16 +1,28 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:first_app/core/extensions/widget_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-
-import '../../../core/shared/util.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
-class AddPlantPageView extends StatelessWidget {
+class AddPlantPageView extends StatefulWidget {
+  const AddPlantPageView({super.key});
+
+  @override
+  State<AddPlantPageView> createState() => _AddPlantPageViewState();
+}
+
+class _AddPlantPageViewState extends State<AddPlantPageView> {
+  final ValueNotifier<File?> imageFile = ValueNotifier(null);
+  final nameController = TextEditingController();
+  final detailsController = TextEditingController();
+  final nutritionController = TextEditingController();
+  final timeController = TextEditingController();
+  final waterController = TextEditingController();
   Uint8List? image;
 
-  AddPlantPageView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +63,7 @@ class AddPlantPageView extends StatelessWidget {
                       child: Column(
                     children: [
                       const SizedBox(width: 170),
-                      Material(child: Imageprofile()),
+                      Material(child: Imageprofile(context, imageFile)),
                     ],
                   )),
                   Padding(
@@ -339,40 +351,7 @@ class AddPlantPageView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (2 != 1) {
-                          //تحقق اسم الافة غير موجود مسبقا
-                          Get.snackbar(
-                            "جيد",
-                            "تمت اضافة النبتة الجديدة بنجاح",
-                            icon: const Icon(Icons.person, color: Colors.white),
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor:
-                                const Color.fromARGB(255, 59, 92, 30),
-                            borderRadius: 20,
-                            margin: const EdgeInsets.all(15),
-                            colorText: Colors.white,
-                            duration: const Duration(seconds: 4),
-                            isDismissible: true,
-                            forwardAnimationCurve: Curves.easeOutBack,
-                          );
-                        } else {
-                          Get.snackbar(
-                            "خطا",
-                            "هذه النبتة موجودة مسبقا",
-                            icon: const Icon(Icons.person, color: Colors.white),
-                            snackPosition: SnackPosition.BOTTOM,
-                            backgroundColor:
-                                const Color.fromARGB(255, 59, 92, 30),
-                            borderRadius: 20,
-                            margin: const EdgeInsets.all(15),
-                            colorText: Colors.white,
-                            duration: const Duration(seconds: 4),
-                            isDismissible: true,
-                            forwardAnimationCurve: Curves.easeOutBack,
-                          );
-                        }
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(255, 59, 92, 30),
@@ -391,54 +370,62 @@ class AddPlantPageView extends StatelessWidget {
             )));
   }
 
-  Widget Imageprofile() {
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          Obx(() => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: 450,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromARGB(255, 59, 92, 30))),
-                  child: false
-                      ? Utility.imageFromBase64String('', 200, 200)
-                      : image == null
-                          ? Image.asset(
-                              'assets/images/1a.png',
-                              width: 200,
-                              height: 200,
-                              fit: BoxFit.fill,
-                            )
-                          : Utility.imageFromBase64String(
-                              Utility.base64String(image!), 200, 200),
+  Widget Imageprofile(context, ValueNotifier<File?> image) {
+    return ValueListenableBuilder(
+        valueListenable: image,
+        builder: (context, value, _) {
+          return Center(
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 450,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromARGB(255, 59, 92, 30))),
+                    child: value == null
+                        ? Image.asset(
+                            'assets/images/1a.png',
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.fill,
+                          )
+                        : Image.file(
+                            value,
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.fill,
+                          ),
+                  ),
                 ),
-              )),
-          Positioned(
-              bottom: 20.0,
-              right: 20.0,
-              child: InkWell(
-                onTap: () async {
-                  openBottomSheet();
-                },
-                child: const Icon(
-                  Icons.camera_alt,
-                  color: Color.fromARGB(255, 66, 66, 66),
-                  size: 28.0,
-                ),
-              ))
-        ],
-      ),
-    );
+                Positioned(
+                    bottom: 20.0,
+                    right: 20.0,
+                    child: InkWell(
+                      onTap: () async {
+                        openBottomSheet(context, image);
+                      },
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Color.fromARGB(255, 66, 66, 66),
+                        size: 28.0,
+                      ),
+                    ))
+              ],
+            ),
+          );
+        });
   }
 }
 
-void openBottomSheet() {
-  Get.bottomSheet(
-    Container(
+void openBottomSheet(context, ValueNotifier<File?> image) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) => Container(
       height: 120.0,
       width: 500,
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -476,7 +463,14 @@ void openBottomSheet() {
                 ],
               )
             ],
-          ),
+          ).onTap(() async {
+            ImagePicker().pickImage(source: ImageSource.gallery).then((v) {
+              if (v != null) {
+                image.value = File(v.path);
+                Navigator.pop(context);
+              }
+            });
+          }),
           // OutlinedButton(
           //   onPressed: () {
           //     Navigator.pop(context);

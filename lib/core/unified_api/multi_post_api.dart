@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import '../shared/shared_preferences_service.dart';
 import 'handling_exception_request.dart';
 
 typedef FromJson<T> = T Function(String body);
@@ -24,9 +25,12 @@ class MultiPostApi with HandlingExceptionRequest {
 
   Future<dynamic> callRequest() async {
     try {
+      final token = SharedPreferencesService.getToken();
+
       var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        if (token != null) "Authorization": 'Bearer $token'
       };
       http.MultipartRequest request = http.MultipartRequest('POST', uri);
       for (var item in files.entries) {
@@ -36,10 +40,7 @@ class MultiPostApi with HandlingExceptionRequest {
               contentType: MediaType('image', 'image')),
         );
       }
-      log(
-          request.files
-              .map((e) => '${e.field}   ${e.contentType ?? ''}')
-              .toString(),
+      log(request.files.map((e) => '${e.field}   ${e.contentType}').toString(),
           name: 'files names');
       request.fields.addAll(body);
       request.headers.addAll(headers);

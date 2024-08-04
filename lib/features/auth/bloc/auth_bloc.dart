@@ -22,6 +22,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(state.copyWith(status: RequestStatus.failed));
       }, (r) {
         SharedPreferencesService.storeToken(r.token!);
+        SharedPreferencesService.storeType(r.user!.role!);
         emit(state.copyWith(status: RequestStatus.success));
       });
     });
